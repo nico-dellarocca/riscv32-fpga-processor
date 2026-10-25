@@ -1,0 +1,6 @@
+// Provisional pin map for Tang Nano 20K S1 and LED0; confirm board revision.
+IO_LOC "button_n" 88;
+IO_PORT "button_n" IO_TYPE=LVCMOS33 PULL_MODE=UP;
+
+IO_LOC "led" 15;
+IO_PORT "led" IO_TYPE=LVCMOS33 PULL_MODE=UP;

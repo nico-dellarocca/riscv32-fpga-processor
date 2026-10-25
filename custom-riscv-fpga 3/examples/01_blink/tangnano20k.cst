@@ -1,0 +1,6 @@
+// Sipeed Tang Nano 20K: onboard oscillator 27 MHz, LED0 active-low.
+IO_LOC "clk" 4;
+IO_PORT "clk" IO_TYPE=LVCMOS33;
+
+IO_LOC "led" 15;
+IO_PORT "led" IO_TYPE=LVCMOS33 PULL_MODE=UP;
