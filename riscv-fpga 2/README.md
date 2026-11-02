@@ -14,11 +14,11 @@ I built a simple 32-bit RISC-V CPU in Verilog, with a basic system around it. It
 - Assembly and C programs to test the CPU
 - Testbenches to check instructions, memory, and other behavior
 
-The design targets the **Sipeed Tang Nano 20K** FPGA board.
+The design targets the Sipeed Tang Nano 20K FPGA board.
 
 ## Running the tests
 
-With **Make** and **Icarus Verilog** installed, run:
+With Make and Icarus Verilog installed, run:
 
 ```bash
 make sim
