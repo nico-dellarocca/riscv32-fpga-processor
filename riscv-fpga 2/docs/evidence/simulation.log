@@ -1,0 +1,24 @@
+/workspace/scratch/50147701ba60/.toolchain/bin/iverilog -g2012 -Wall -s tb_blink -o build/tb_blink examples/blink.v examples/tb_blink.v
+/workspace/scratch/50147701ba60/.toolchain/bin/iverilog -g2012 -Wall -s tb_soc -o build/tb_soc rtl/rv32i_core.v rtl/rv32_soc.v sim/tb_soc.v
+/workspace/scratch/50147701ba60/.toolchain/bin/iverilog -g2012 -Wall -s tb_top -o build/tb_top rtl/rv32i_core.v rtl/rv32_soc.v rtl/tangnano20k_top.v sim/tb_top.v
+PASS blink: pin toggles every 8 clocks; 4 transitions in 32 clocks
+examples/tb_blink.v:42: $finish called at 316000 (1ps)
+PASS cpu arithmetic: all 21 ALU/U mnemonics, x0, signed immediates; 96 cycles
+PASS cpu memory: all 8 load/store mnemonics, lanes, extension, 14 LOAD_WB cycles; 89 cycles
+PASS cpu branches: all 6 branches taken/not-taken, signed/unsigned, backward offset
+PASS cpu jumps: JAL, JALR, links, bit-zero clearing, negative J immediate
+PASS cpu faults: unsupported/reserved encodings, alignment, rejected reads/writes/fetches, sticky halt
+PASS tb_cpu
+sim/tb_cpu.v:400: $finish called at 7446000 (1ps)
+PASS SoC sim/programs/arithmetic.mem cycles=60 LED_writes=0
+PASS SoC sim/programs/memory.mem cycles=108 LED_writes=0
+PASS SoC sim/programs/branch.mem cycles=90 LED_writes=0
+PASS SoC sim/programs/led.mem cycles=73 LED_writes=3
+PASS SoC sim/programs/c_smoke.mem cycles=433 LED_writes=3
+PASS SoC rejects write to read-only button
+PASS SoC rejects store above 16 KiB RAM
+PASS SoC rejects byte store to word-only PASS
+PASS tb_soc
+sim/tb_soc.v:115: $finish called at 8156000 (1ps)
+PASS top: 7-edge POR, two-stage S1 rise/fall, active-low LED, hardware MMIO rejection
+sim/tb_top.v:98: $finish called at 216000 (1ps)

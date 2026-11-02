@@ -1,0 +1,10 @@
+// Tang Nano 20K PCB 3921, schematic Rev 1.30 (2023-07-11).
+// Pin numbers are FPGA package pins, not header positions.
+// See docs/board_sources.md. No implemented timing or board test is claimed.
+IO_LOC "clk" 4;
+IO_PORT "clk" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
+IO_LOC "led0_n" 15;
+IO_PORT "led0_n" IO_TYPE=LVCMOS33 PULL_MODE=NONE DRIVE=8;
+IO_LOC "button_s1" 88;
+// S1 presses HIGH. R6 provides an external 1k pulldown.
+IO_PORT "button_s1" IO_TYPE=LVCMOS33 PULL_MODE=NONE;

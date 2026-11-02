@@ -1,0 +1,6 @@
+// Tang Nano 20K PCB 3921, schematic Rev 1.30 (2023-07-11).
+// See docs/board_sources.md. These constraints have not been board-tested.
+IO_LOC "clk" 4;
+IO_PORT "clk" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
+IO_LOC "led0_n" 15;
+IO_PORT "led0_n" IO_TYPE=LVCMOS33 PULL_MODE=NONE DRIVE=8;

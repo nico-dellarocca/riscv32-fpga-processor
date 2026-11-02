@@ -1,0 +1,156 @@
+
+../build/firmware/firmware_sim.elf:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00000000 <_start>:
+   0:	00004117          	auipc	x2,0x4
+   4:	00010113          	addi	x2,x2,0 # 4000 <__stack_top>
+   8:	00001197          	auipc	x3,0x1
+   c:	a3c18193          	addi	x3,x3,-1476 # a44 <__global_pointer$>
+  10:	00000297          	auipc	x5,0x0
+  14:	24028293          	addi	x5,x5,576 # 250 <probe>
+  18:	00000317          	auipc	x6,0x0
+  1c:	24c30313          	addi	x6,x6,588 # 264 <__bss_end>
+  20:	0062f863          	bgeu	x5,x6,30 <_start+0x30>
+  24:	0002a023          	sw	x0,0(x5)
+  28:	00428293          	addi	x5,x5,4
+  2c:	ff5ff06f          	jal	x0,20 <_start+0x20>
+  30:	00000097          	auipc	x1,0x0
+  34:	034080e7          	jalr	x1,52(x1) # 64 <main>
+  38:	0000006f          	jal	x0,38 <_start+0x38>
+
+0000003c <add_from_stack>:
+  3c:	ff010113          	addi	x2,x2,-16
+  40:	00a12023          	sw	x10,0(x2)
+  44:	00b12223          	sw	x11,4(x2)
+  48:	00a12423          	sw	x10,8(x2)
+  4c:	00012503          	lw	x10,0(x2)
+  50:	00412783          	lw	x15,4(x2)
+  54:	00b12623          	sw	x11,12(x2)
+  58:	00f50533          	add	x10,x10,x15
+  5c:	01010113          	addi	x2,x2,16
+  60:	00008067          	jalr	x0,0(x1)
+
+00000064 <main>:
+  64:	00000737          	lui	x14,0x0
+  68:	00000793          	addi	x15,x0,0
+  6c:	25470713          	addi	x14,x14,596 # 254 <zero_words>
+  70:	00400613          	addi	x12,x0,4
+  74:	00279693          	slli	x13,x15,0x2
+  78:	00d706b3          	add	x13,x14,x13
+  7c:	0006a683          	lw	x13,0(x13)
+  80:	00068c63          	beq	x13,x0,98 <main+0x34>
+  84:	bad00737          	lui	x14,0xbad00
+  88:	100007b7          	lui	x15,0x10000
+  8c:	00170713          	addi	x14,x14,1 # bad00001 <__stack_top+0xbacfc001>
+  90:	00e7a823          	sw	x14,16(x15) # 10000010 <__stack_top+0xfffc010>
+  94:	0000006f          	jal	x0,94 <main+0x30>
+  98:	00178793          	addi	x15,x15,1
+  9c:	fcc79ce3          	bne	x15,x12,74 <main+0x10>
+  a0:	ff010113          	addi	x2,x2,-16
+  a4:	00812423          	sw	x8,8(x2)
+  a8:	00000437          	lui	x8,0x0
+  ac:	25042783          	lw	x15,592(x8) # 250 <probe>
+  b0:	00112623          	sw	x1,12(x2)
+  b4:	00078c63          	beq	x15,x0,cc <main+0x68>
+  b8:	bad00737          	lui	x14,0xbad00
+  bc:	100007b7          	lui	x15,0x10000
+  c0:	00270713          	addi	x14,x14,2 # bad00002 <__stack_top+0xbacfc002>
+  c4:	00e7a823          	sw	x14,16(x15) # 10000010 <__stack_top+0xfffc010>
+  c8:	0000006f          	jal	x0,c8 <main+0x64>
+  cc:	000007b7          	lui	x15,0x0
+  d0:	24c7a703          	lw	x14,588(x15) # 24c <initialized_word>
+  d4:	123457b7          	lui	x15,0x12345
+  d8:	67878793          	addi	x15,x15,1656 # 12345678 <__stack_top+0x12341678>
+  dc:	00f70c63          	beq	x14,x15,f4 <main+0x90>
+  e0:	bad00737          	lui	x14,0xbad00
+  e4:	100007b7          	lui	x15,0x10000
+  e8:	00370713          	addi	x14,x14,3 # bad00003 <__stack_top+0xbacfc003>
+  ec:	00e7a823          	sw	x14,16(x15) # 10000010 <__stack_top+0xfffc010>
+  f0:	0000006f          	jal	x0,f0 <main+0x8c>
+  f4:	000007b7          	lui	x15,0x0
+  f8:	2487a503          	lw	x10,584(x15) # 248 <operand_a>
+  fc:	000007b7          	lui	x15,0x0
+ 100:	2447a583          	lw	x11,580(x15) # 244 <operand_b>
+ 104:	00000097          	auipc	x1,0x0
+ 108:	f38080e7          	jalr	x1,-200(x1) # 3c <add_from_stack>
+ 10c:	00c00793          	addi	x15,x0,12
+ 110:	00f50c63          	beq	x10,x15,128 <main+0xc4>
+ 114:	bad00737          	lui	x14,0xbad00
+ 118:	100007b7          	lui	x15,0x10000
+ 11c:	00470713          	addi	x14,x14,4 # bad00004 <__stack_top+0xbacfc004>
+ 120:	00e7a823          	sw	x14,16(x15) # 10000010 <__stack_top+0xfffc010>
+ 124:	0000006f          	jal	x0,124 <main+0xc0>
+ 128:	80fe87b7          	lui	x15,0x80fe8
+ 12c:	f0178793          	addi	x15,x15,-255 # 80fe7f01 <__stack_top+0x80fe3f01>
+ 130:	24f42823          	sw	x15,592(x8)
+ 134:	25044703          	lbu	x14,592(x8)
+ 138:	00100793          	addi	x15,x0,1
+ 13c:	02f71663          	bne	x14,x15,168 <main+0x104>
+ 140:	25040793          	addi	x15,x8,592
+ 144:	0017c683          	lbu	x13,1(x15)
+ 148:	07f00713          	addi	x14,x0,127
+ 14c:	00e69e63          	bne	x13,x14,168 <main+0x104>
+ 150:	0027c683          	lbu	x13,2(x15)
+ 154:	0fe00713          	addi	x14,x0,254
+ 158:	00e69863          	bne	x13,x14,168 <main+0x104>
+ 15c:	0037c683          	lbu	x13,3(x15)
+ 160:	08000713          	addi	x14,x0,128
+ 164:	00e68c63          	beq	x13,x14,17c <main+0x118>
+ 168:	bad00737          	lui	x14,0xbad00
+ 16c:	100007b7          	lui	x15,0x10000
+ 170:	00570713          	addi	x14,x14,5 # bad00005 <__stack_top+0xbacfc005>
+ 174:	00e7a823          	sw	x14,16(x15) # 10000010 <__stack_top+0xfffc010>
+ 178:	0000006f          	jal	x0,178 <main+0x114>
+ 17c:	0037c703          	lbu	x14,3(x15)
+ 180:	f8000693          	addi	x13,x0,-128
+ 184:	01871713          	slli	x14,x14,0x18
+ 188:	41875713          	srai	x14,x14,0x18
+ 18c:	00d70c63          	beq	x14,x13,1a4 <main+0x140>
+ 190:	bad00737          	lui	x14,0xbad00
+ 194:	100007b7          	lui	x15,0x10000
+ 198:	00670713          	addi	x14,x14,6 # bad00006 <__stack_top+0xbacfc006>
+ 19c:	00e7a823          	sw	x14,16(x15) # 10000010 <__stack_top+0xfffc010>
+ 1a0:	0000006f          	jal	x0,1a0 <main+0x13c>
+ 1a4:	25045683          	lhu	x13,592(x8)
+ 1a8:	00008737          	lui	x14,0x8
+ 1ac:	f0170713          	addi	x14,x14,-255 # 7f01 <__stack_top+0x3f01>
+ 1b0:	02e69663          	bne	x13,x14,1dc <main+0x178>
+ 1b4:	0027d683          	lhu	x13,2(x15)
+ 1b8:	00008737          	lui	x14,0x8
+ 1bc:	0fe70713          	addi	x14,x14,254 # 80fe <__stack_top+0x40fe>
+ 1c0:	00e69e63          	bne	x13,x14,1dc <main+0x178>
+ 1c4:	0027d683          	lhu	x13,2(x15)
+ 1c8:	ffff8737          	lui	x14,0xffff8
+ 1cc:	0fe70713          	addi	x14,x14,254 # ffff80fe <__stack_top+0xffff40fe>
+ 1d0:	01069693          	slli	x13,x13,0x10
+ 1d4:	4106d693          	srai	x13,x13,0x10
+ 1d8:	00e68c63          	beq	x13,x14,1f0 <main+0x18c>
+ 1dc:	bad00737          	lui	x14,0xbad00
+ 1e0:	100007b7          	lui	x15,0x10000
+ 1e4:	00770713          	addi	x14,x14,7 # bad00007 <__stack_top+0xbacfc007>
+ 1e8:	00e7a823          	sw	x14,16(x15) # 10000010 <__stack_top+0xfffc010>
+ 1ec:	0000006f          	jal	x0,1ec <main+0x188>
+ 1f0:	fa500713          	addi	x14,x0,-91
+ 1f4:	00e780a3          	sb	x14,1(x15)
+ 1f8:	00001737          	lui	x14,0x1
+ 1fc:	23470713          	addi	x14,x14,564 # 1234 <__global_pointer$+0x7f0>
+ 200:	00e79123          	sh	x14,2(x15)
+ 204:	25042703          	lw	x14,592(x8)
+ 208:	1234a7b7          	lui	x15,0x1234a
+ 20c:	50178793          	addi	x15,x15,1281 # 1234a501 <__stack_top+0x12346501>
+ 210:	00f70c63          	beq	x14,x15,228 <main+0x1c4>
+ 214:	bad00737          	lui	x14,0xbad00
+ 218:	100007b7          	lui	x15,0x10000
+ 21c:	00870713          	addi	x14,x14,8 # bad00008 <__stack_top+0xbacfc008>
+ 220:	00e7a823          	sw	x14,16(x15) # 10000010 <__stack_top+0xfffc010>
+ 224:	0000006f          	jal	x0,224 <main+0x1c0>
+ 228:	100007b7          	lui	x15,0x10000
+ 22c:	0007a023          	sw	x0,0(x15) # 10000000 <__stack_top+0xfffc000>
+ 230:	00100713          	addi	x14,x0,1
+ 234:	00e7a023          	sw	x14,0(x15)
+ 238:	0007a023          	sw	x0,0(x15)
+ 23c:	00e7a823          	sw	x14,16(x15)
+ 240:	0000006f          	jal	x0,240 <main+0x1dc>

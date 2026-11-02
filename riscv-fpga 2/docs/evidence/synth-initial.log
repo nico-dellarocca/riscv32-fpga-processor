@@ -1,0 +1,161 @@
+
+ /----------------------------------------------------------------------------\
+ |                                                                            |
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |                                                                            |
+ |  Copyright (C) 2012 - 2020  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |                                                                            |
+ |  Permission to use, copy, modify, and/or distribute this software for any  |
+ |  purpose with or without fee is hereby granted, provided that the above    |
+ |  copyright notice and this permission notice appear in all copies.         |
+ |                                                                            |
+ |  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES  |
+ |  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF          |
+ |  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR   |
+ |  ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES    |
+ |  WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN     |
+ |  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF   |
+ |  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.            |
+ |                                                                            |
+ \----------------------------------------------------------------------------/
+
+ Yosys 0.33 (git sha1 2584903a060)
+
+
+-- Running command `read_verilog rtl/rv32i_core.v rtl/rv32_soc.v rtl/tangnano20k_top.v; synth_gowin -family gw2a -top tangnano20k_top -json build/soc.json; check; stat' --
+
+1. Executing Verilog-2005 frontend: rtl/rv32i_core.v
+Parsing Verilog input from `rtl/rv32i_core.v' to AST representation.
+Generating RTLIL representation for module `\rv32i_core'.
+Successfully finished Verilog frontend.
+
+2. Executing Verilog-2005 frontend: rtl/rv32_soc.v
+Parsing Verilog input from `rtl/rv32_soc.v' to AST representation.
+Generating RTLIL representation for module `\rv32_soc'.
+Successfully finished Verilog frontend.
+
+3. Executing Verilog-2005 frontend: rtl/tangnano20k_top.v
+Parsing Verilog input from `rtl/tangnano20k_top.v' to AST representation.
+Generating RTLIL representation for module `\tangnano20k_top'.
+Successfully finished Verilog frontend.
+
+Syntax error in command `synth_gowin -family gw2a -top tangnano20k_top -json build/soc.json':
+
+    synth_gowin [options]
+
+This command runs synthesis for Gowin FPGAs. This work is experimental.
+
+    -top <module>
+        use the specified module as top module (default='top')
+
+    -vout <file>
+        write the design to the specified Verilog netlist file. writing of an
+        output file is omitted if this parameter is not specified.
+
+    -json <file>
+        write the design to the specified JSON netlist file. writing of an
+        output file is omitted if this parameter is not specified.
+        This disables features not yet supported by nexpnr-gowin.
+
+    -run <from_label>:<to_label>
+        only run the commands between the labels (see below). an empty
+        from label is synonymous to 'begin', and empty to label is
+        synonymous to the end of the command list.
+
+    -nodffe
+        do not use flipflops with CE in output netlist
+
+    -nobram
+        do not use BRAM cells in output netlist
+
+    -nolutram
+        do not use distributed RAM cells in output netlist
+
+    -noflatten
+        do not flatten design before synthesis
+
+    -retime
+        run 'abc' with '-dff -D 1' options
+
+    -nowidelut
+        do not use muxes to implement LUTs larger than LUT4s
+
+    -noiopads
+        do not emit IOB at top level ports
+
+    -noalu
+        do not use ALU cells
+
+    -abc9
+        use new ABC9 flow (EXPERIMENTAL)
+
+    -no-rw-check
+        marks all recognized read ports as "return don't-care value on
+        read/write collision" (same result as setting the no_rw_check
+        attribute on all memories).
+
+
+The following commands are executed by this synthesis command:
+
+    begin:
+        read_verilog -specify -lib +/gowin/cells_sim.v
+        read_verilog -specify -lib +/gowin/cells_xtra.v
+        hierarchy -check -top <top>
+
+    flatten:    (unless -noflatten)
+        proc
+        flatten
+        tribuf -logic
+        deminout
+
+    coarse:
+        synth -run coarse [-no-rw-check]
+
+    map_ram:
+        memory_libmap -lib +/gowin/lutrams.txt -lib +/gowin/brams.txt [-no-auto-block] [-no-auto-distributed]    (-no-auto-block if -nobram, -no-auto-distributed if -nolutram)
+        techmap -map +/gowin/lutrams_map.v -map +/gowin/brams_map.v
+
+    map_ffram:
+        opt -fast -mux_undef -undriven -fine
+        memory_map
+        opt -undriven -fine
+
+    map_gates:
+        techmap -map +/techmap.v -map +/gowin/arith_map.v
+        opt -fast
+        abc -dff -D 1    (only if -retime)
+        iopadmap -bits -inpad IBUF O:I -outpad OBUF I:O -toutpad TBUF ~OEN:I:O -tinoutpad IOBUF ~OEN:O:I:IO    (unless -noiopads)
+
+    map_ffs:
+        opt_clean
+        dfflegalize -cell $_DFF_?_ 0 -cell $_DFFE_?P_ 0 -cell $_SDFF_?P?_ r -cell $_SDFFE_?P?P_ r -cell $_DFF_?P?_ r -cell $_DFFE_?P?P_ r
+        techmap -map +/gowin/cells_map.v
+        opt_expr -mux_undef
+        simplemap
+
+    map_luts:
+        abc -lut 4:8
+        clean
+
+    map_cells:
+        techmap -map +/gowin/cells_map.v
+        opt_lut_ins -tech gowin
+        setundef -undriven -params -zero
+        hilomap -singleton -hicell VCC V -locell GND G
+        splitnets -ports    (only if -vout used)
+        clean
+        autoname
+
+    check:
+        hierarchy -check
+        stat
+        check -noinit
+        blackbox =A:whitebox
+
+    vout:
+        write_verilog -simple-lhs -decimal -attr2comment -defparam -renameprefix gen <file-name>
+        write_json <file-name>
+
+ERROR: Command syntax error: Unknown option or option in arguments.
+> synth_gowin -family gw2a -top tangnano20k_top -json build/soc.json
+>             ^

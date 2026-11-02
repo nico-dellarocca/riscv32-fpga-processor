@@ -1,0 +1,89 @@
+make: Entering directory '/workspace/scratch/50147701ba60/riscv-fpga/software'
+mkdir -p ../build/firmware
+/workspace/scratch/50147701ba60/.toolchain/usr/bin/riscv64-unknown-elf-gcc -march=rv32i -mabi=ilp32 -mno-relax -msmall-data-limit=0 -Os -std=gnu11 -Wall -Wextra -Werror -ffreestanding -fno-builtin -fno-pic -fno-pie -fno-stack-protector -fno-unwind-tables -fno-asynchronous-unwind-tables -ffunction-sections -fdata-sections -DSIMULATION -nostdlib -nostartfiles -Wl,-T,linker.ld,--gc-sections,--no-relax -Wl,--orphan-handling=error,--build-id=none -Wl,-Map,../build/firmware/firmware_sim.map start.S main.c -o ../build/firmware/firmware_sim.elf
+/workspace/scratch/50147701ba60/.toolchain/usr/bin/../lib/gcc/riscv64-unknown-elf/13.2.0/../../../riscv64-unknown-elf/bin/ld: warning: ../build/firmware/firmware_sim.elf has a LOAD segment with RWX permissions
+/workspace/scratch/50147701ba60/.toolchain/usr/bin/riscv64-unknown-elf-objdump -d -M no-aliases,numeric ../build/firmware/firmware_sim.elf > ../build/firmware/firmware_sim.lst
+/workspace/scratch/50147701ba60/.toolchain/usr/bin/riscv64-unknown-elf-objcopy -O binary --only-section=.text ../build/firmware/firmware_sim.elf ../build/firmware/firmware_sim.text.bin
+python3 ../tools/check_isa.py ../build/firmware/firmware_sim.text.bin
+PASS: ../build/firmware/firmware_sim.text.bin: 145 encodings in implemented subset
+/workspace/scratch/50147701ba60/.toolchain/usr/bin/riscv64-unknown-elf-objcopy -O binary ../build/firmware/firmware_sim.elf ../build/firmware/firmware_sim.bin
+python3 ../tools/bin_to_mem.py ../build/firmware/firmware_sim.bin ../build/firmware/firmware_sim.mem
+WROTE ../build/firmware/firmware_sim.mem: 4096 words, zero-filled unused RAM
+/workspace/scratch/50147701ba60/.toolchain/usr/bin/riscv64-unknown-elf-size ../build/firmware/firmware_sim.elf
+   text	   data	    bss	    dec	    hex	filename
+    580	     12	     20	    612	    264	../build/firmware/firmware_sim.elf
+/workspace/scratch/50147701ba60/.toolchain/usr/bin/riscv64-unknown-elf-gcc -march=rv32i -mabi=ilp32 -mno-relax -msmall-data-limit=0 -Os -std=gnu11 -Wall -Wextra -Werror -ffreestanding -fno-builtin -fno-pic -fno-pie -fno-stack-protector -fno-unwind-tables -fno-asynchronous-unwind-tables -ffunction-sections -fdata-sections -DLED_DELAY=2250000 -nostdlib -nostartfiles -Wl,-T,linker.ld,--gc-sections,--no-relax -Wl,--orphan-handling=error,--build-id=none -Wl,-Map,../build/firmware/firmware_hw.map start.S main.c -o ../build/firmware/firmware_hw.elf
+/workspace/scratch/50147701ba60/.toolchain/usr/bin/../lib/gcc/riscv64-unknown-elf/13.2.0/../../../riscv64-unknown-elf/bin/ld: warning: ../build/firmware/firmware_hw.elf has a LOAD segment with RWX permissions
+/workspace/scratch/50147701ba60/.toolchain/usr/bin/riscv64-unknown-elf-objdump -d -M no-aliases,numeric ../build/firmware/firmware_hw.elf > ../build/firmware/firmware_hw.lst
+/workspace/scratch/50147701ba60/.toolchain/usr/bin/riscv64-unknown-elf-objcopy -O binary --only-section=.text ../build/firmware/firmware_hw.elf ../build/firmware/firmware_hw.text.bin
+python3 ../tools/check_isa.py ../build/firmware/firmware_hw.text.bin
+PASS: ../build/firmware/firmware_hw.text.bin: 145 encodings in implemented subset
+/workspace/scratch/50147701ba60/.toolchain/usr/bin/riscv64-unknown-elf-objcopy -O binary ../build/firmware/firmware_hw.elf ../build/firmware/firmware_hw.bin
+python3 ../tools/bin_to_mem.py ../build/firmware/firmware_hw.bin ../build/firmware/firmware_hw.mem
+WROTE ../build/firmware/firmware_hw.mem: 4096 words, zero-filled unused RAM
+/workspace/scratch/50147701ba60/.toolchain/usr/bin/riscv64-unknown-elf-size ../build/firmware/firmware_hw.elf
+   text	   data	    bss	    dec	    hex	filename
+    580	     12	     20	    612	    264	../build/firmware/firmware_hw.elf
+/workspace/scratch/50147701ba60/.toolchain/usr/bin/riscv64-unknown-elf-gcc -march=rv32i -mabi=ilp32 -mno-relax -msmall-data-limit=0 -DSIMULATION -nostdlib -nostartfiles -Wl,-T,linker.ld,--gc-sections,--no-relax -Wl,--orphan-handling=error,--build-id=none -Wl,-Map,../build/firmware/arithmetic.map ../sim/programs/arithmetic.S -o ../build/firmware/arithmetic.elf
+/workspace/scratch/50147701ba60/.toolchain/usr/bin/riscv64-unknown-elf-objdump -d -M no-aliases,numeric ../build/firmware/arithmetic.elf > ../build/firmware/arithmetic.lst
+/workspace/scratch/50147701ba60/.toolchain/usr/bin/riscv64-unknown-elf-objcopy -O binary --only-section=.text ../build/firmware/arithmetic.elf ../build/firmware/arithmetic.text.bin
+python3 ../tools/check_isa.py ../build/firmware/arithmetic.text.bin
+PASS: ../build/firmware/arithmetic.text.bin: 26 encodings in implemented subset
+/workspace/scratch/50147701ba60/.toolchain/usr/bin/riscv64-unknown-elf-objcopy -O binary ../build/firmware/arithmetic.elf ../build/firmware/arithmetic.bin
+python3 ../tools/bin_to_mem.py ../build/firmware/arithmetic.bin ../build/firmware/arithmetic.mem
+WROTE ../build/firmware/arithmetic.mem: 4096 words, zero-filled unused RAM
+/workspace/scratch/50147701ba60/.toolchain/usr/bin/riscv64-unknown-elf-size ../build/firmware/arithmetic.elf
+   text	   data	    bss	    dec	    hex	filename
+    104	      0	      0	    104	     68	../build/firmware/arithmetic.elf
+/workspace/scratch/50147701ba60/.toolchain/usr/bin/riscv64-unknown-elf-gcc -march=rv32i -mabi=ilp32 -mno-relax -msmall-data-limit=0 -DSIMULATION -nostdlib -nostartfiles -Wl,-T,linker.ld,--gc-sections,--no-relax -Wl,--orphan-handling=error,--build-id=none -Wl,-Map,../build/firmware/memory.map ../sim/programs/memory.S -o ../build/firmware/memory.elf
+/workspace/scratch/50147701ba60/.toolchain/usr/bin/../lib/gcc/riscv64-unknown-elf/13.2.0/../../../riscv64-unknown-elf/bin/ld: warning: ../build/firmware/memory.elf has a LOAD segment with RWX permissions
+/workspace/scratch/50147701ba60/.toolchain/usr/bin/riscv64-unknown-elf-objdump -d -M no-aliases,numeric ../build/firmware/memory.elf > ../build/firmware/memory.lst
+/workspace/scratch/50147701ba60/.toolchain/usr/bin/riscv64-unknown-elf-objcopy -O binary --only-section=.text ../build/firmware/memory.elf ../build/firmware/memory.text.bin
+python3 ../tools/check_isa.py ../build/firmware/memory.text.bin
+PASS: ../build/firmware/memory.text.bin: 40 encodings in implemented subset
+/workspace/scratch/50147701ba60/.toolchain/usr/bin/riscv64-unknown-elf-objcopy -O binary ../build/firmware/memory.elf ../build/firmware/memory.bin
+python3 ../tools/bin_to_mem.py ../build/firmware/memory.bin ../build/firmware/memory.mem
+WROTE ../build/firmware/memory.mem: 4096 words, zero-filled unused RAM
+/workspace/scratch/50147701ba60/.toolchain/usr/bin/riscv64-unknown-elf-size ../build/firmware/memory.elf
+   text	   data	    bss	    dec	    hex	filename
+    160	      0	      4	    164	     a4	../build/firmware/memory.elf
+/workspace/scratch/50147701ba60/.toolchain/usr/bin/riscv64-unknown-elf-gcc -march=rv32i -mabi=ilp32 -mno-relax -msmall-data-limit=0 -DSIMULATION -nostdlib -nostartfiles -Wl,-T,linker.ld,--gc-sections,--no-relax -Wl,--orphan-handling=error,--build-id=none -Wl,-Map,../build/firmware/branch.map ../sim/programs/branch.S -o ../build/firmware/branch.elf
+/workspace/scratch/50147701ba60/.toolchain/usr/bin/riscv64-unknown-elf-objdump -d -M no-aliases,numeric ../build/firmware/branch.elf > ../build/firmware/branch.lst
+/workspace/scratch/50147701ba60/.toolchain/usr/bin/riscv64-unknown-elf-objcopy -O binary --only-section=.text ../build/firmware/branch.elf ../build/firmware/branch.text.bin
+python3 ../tools/check_isa.py ../build/firmware/branch.text.bin
+PASS: ../build/firmware/branch.text.bin: 33 encodings in implemented subset
+/workspace/scratch/50147701ba60/.toolchain/usr/bin/riscv64-unknown-elf-objcopy -O binary ../build/firmware/branch.elf ../build/firmware/branch.bin
+python3 ../tools/bin_to_mem.py ../build/firmware/branch.bin ../build/firmware/branch.mem
+WROTE ../build/firmware/branch.mem: 4096 words, zero-filled unused RAM
+/workspace/scratch/50147701ba60/.toolchain/usr/bin/riscv64-unknown-elf-size ../build/firmware/branch.elf
+   text	   data	    bss	    dec	    hex	filename
+    132	      0	      0	    132	     84	../build/firmware/branch.elf
+/workspace/scratch/50147701ba60/.toolchain/usr/bin/riscv64-unknown-elf-gcc -march=rv32i -mabi=ilp32 -mno-relax -msmall-data-limit=0 -DSIMULATION -nostdlib -nostartfiles -Wl,-T,linker.ld,--gc-sections,--no-relax -Wl,--orphan-handling=error,--build-id=none -Wl,-Map,../build/firmware/led.map ../sim/programs/led.S -o ../build/firmware/led.elf
+/workspace/scratch/50147701ba60/.toolchain/usr/bin/riscv64-unknown-elf-objdump -d -M no-aliases,numeric ../build/firmware/led.elf > ../build/firmware/led.lst
+/workspace/scratch/50147701ba60/.toolchain/usr/bin/riscv64-unknown-elf-objcopy -O binary --only-section=.text ../build/firmware/led.elf ../build/firmware/led.text.bin
+python3 ../tools/check_isa.py ../build/firmware/led.text.bin
+PASS: ../build/firmware/led.text.bin: 20 encodings in implemented subset
+/workspace/scratch/50147701ba60/.toolchain/usr/bin/riscv64-unknown-elf-objcopy -O binary ../build/firmware/led.elf ../build/firmware/led.bin
+python3 ../tools/bin_to_mem.py ../build/firmware/led.bin ../build/firmware/led.mem
+WROTE ../build/firmware/led.mem: 4096 words, zero-filled unused RAM
+/workspace/scratch/50147701ba60/.toolchain/usr/bin/riscv64-unknown-elf-size ../build/firmware/led.elf
+   text	   data	    bss	    dec	    hex	filename
+     80	      0	      0	     80	     50	../build/firmware/led.elf
+/workspace/scratch/50147701ba60/.toolchain/usr/bin/riscv64-unknown-elf-gcc -march=rv32i -mabi=ilp32 -mno-relax -msmall-data-limit=0 -DLED_DELAY=2250000 -nostdlib -nostartfiles -Wl,-T,linker.ld,--gc-sections,--no-relax -Wl,--orphan-handling=error,--build-id=none -Wl,-Map,../build/firmware/led_hw.map ../sim/programs/led.S -o ../build/firmware/led_hw.elf
+/workspace/scratch/50147701ba60/.toolchain/usr/bin/riscv64-unknown-elf-objdump -d -M no-aliases,numeric ../build/firmware/led_hw.elf > ../build/firmware/led_hw.lst
+/workspace/scratch/50147701ba60/.toolchain/usr/bin/riscv64-unknown-elf-objcopy -O binary --only-section=.text ../build/firmware/led_hw.elf ../build/firmware/led_hw.text.bin
+python3 ../tools/check_isa.py ../build/firmware/led_hw.text.bin
+PASS: ../build/firmware/led_hw.text.bin: 14 encodings in implemented subset
+/workspace/scratch/50147701ba60/.toolchain/usr/bin/riscv64-unknown-elf-objcopy -O binary ../build/firmware/led_hw.elf ../build/firmware/led_hw.bin
+python3 ../tools/bin_to_mem.py ../build/firmware/led_hw.bin ../build/firmware/led_hw.mem
+WROTE ../build/firmware/led_hw.mem: 4096 words, zero-filled unused RAM
+/workspace/scratch/50147701ba60/.toolchain/usr/bin/riscv64-unknown-elf-size ../build/firmware/led_hw.elf
+   text	   data	    bss	    dec	    hex	filename
+     56	      0	      0	     56	     38	../build/firmware/led_hw.elf
+cp ../build/firmware/arithmetic.mem ../build/firmware/memory.mem ../build/firmware/branch.mem ../build/firmware/led.mem ../build/firmware/led_hw.mem ../sim/programs/
+cp ../build/firmware/firmware_sim.mem ../sim/programs/c_smoke.mem
+/workspace/scratch/50147701ba60/.toolchain/usr/bin/riscv64-unknown-elf-nm -n ../build/firmware/firmware_sim.elf | awk \
+  '$3 == "__bss_start" { start = $1 } $3 == "__bss_end" { end = $1 } \
+   END { if (start == "" || end == "") exit 1; print start; print end }' \
+  > ../sim/programs/c_smoke.bss
+make: Leaving directory '/workspace/scratch/50147701ba60/riscv-fpga/software'
