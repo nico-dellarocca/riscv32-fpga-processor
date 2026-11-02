@@ -233,7 +233,7 @@ I also want to expand testing beyond the current directed instruction tests.
 
 The project shouldn't be described as physically FPGA-tested until those steps are completed.
 
-### October 29, 2026 — Recorded build and simulation results
+### October 19, 2026 — Recorded build and simulation results
 
 The retained testing record documents execution of the CPU and SoC simulations, firmware builds, and top-level tests on this date.
 
